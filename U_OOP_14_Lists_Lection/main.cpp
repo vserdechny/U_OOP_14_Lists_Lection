@@ -1,19 +1,25 @@
 #include "SinglyLinkedList.h"
+#include "DoublyLinkedList.h"
 #include <iostream>
 
 using data_structures::SinglyLinkedList;
+using data_structures::DoublyLinkedList;
 using std::cout;
 using std::cin;
 using std::endl;
 
 template <typename T>
 void print_sn_list_info(const SinglyLinkedList<T>& list);
+template <typename T>
+void print_db_list_info(const DoublyLinkedList<T>& list);
 
 void singly_linked_list_test();
+void doubly_linked_list_test();
 
 int main()
 {
-	singly_linked_list_test();
+	//singly_linked_list_test();
+	doubly_linked_list_test();
 }
 
 void singly_linked_list_test()
@@ -68,6 +74,38 @@ void singly_linked_list_test()
 
 	cout << "\n\nlist after clearing:";
 	print_sn_list_info(list);
+}
+
+void doubly_linked_list_test()
+{
+	DoublyLinkedList<int> list(10);
+
+	list.set_value(0, 100);
+	list.set_value(8, 500);
+
+	cout << "Source doubly-linked list:";
+	print_db_list_info(list);
+
+	for (size_t i = 1; i <= 3; i++)
+		list.push_back(static_cast<int>(i));
+
+	cout << "\n\nDoubly-linked list after pushing back 3 values [1-3]:";
+	print_db_list_info(list);
+
+	list.pop_back();
+
+	cout << "\n\nDoubly-linked list after popping back 1 value:";
+	print_db_list_info(list);
+}
+
+template <typename T>
+void print_db_list_info(const DoublyLinkedList<T>& list)
+{
+	cout << "\nList size: " << list.size() << endl;
+	cout << "Empty? " << (list.is_empty() ? "yes" : "no") << endl;
+	cout << "Values:" << endl;
+	for (size_t i = 0; i < list.size(); i++)
+		cout << list.value_at(i) << " ";
 }
 
 template <typename T>

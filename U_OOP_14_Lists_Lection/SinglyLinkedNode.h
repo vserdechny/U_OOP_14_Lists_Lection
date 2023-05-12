@@ -36,7 +36,7 @@ namespace data_structures
 		//**************************************
 
 		//Returns a pointer to the next node
-		SinglyLinkedNode<Type>* next()const { return _next; }
+		SinglyLinkedNode<Type>* next() { return _next; }
 		//Returns a constant reference to the value of the node
 		const Type& value()const { return _value; }
 
