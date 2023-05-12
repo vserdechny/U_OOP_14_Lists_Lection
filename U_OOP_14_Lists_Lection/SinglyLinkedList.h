@@ -155,5 +155,40 @@ namespace singly_linked_list
 			auto new_node = new SinglyLinkedNode<Type>(value, node->next());
 			node->set_next(new_node);
 		}
+		//Removes the node at the specified position
+		void remove_at(size_t index)
+		{
+			if (_head == nullptr)
+				throw std::out_of_range("Index out of range!");
+
+			if (index == 0)
+			{
+				auto node_to_del = _head;
+				_head = _head->next();
+				delete node_to_del;
+				return;
+			}
+
+			auto node = _head;
+			for (size_t i = 0; i < index - 1; i++)
+			{
+				node = node->next();
+				if (node == nullptr)
+					throw std::out_of_range("Index out of range!");
+			}
+
+			if (node->next()->next() == nullptr)
+			{
+				delete node->next();
+				node->set_next(nullptr);
+			}
+			else
+			{
+				auto node_to_del = node->next();
+				node->set_next(node->next()->next());
+				delete node_to_del;
+			}
+		}
+
 	};
 }

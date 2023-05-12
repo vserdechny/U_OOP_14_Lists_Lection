@@ -9,7 +9,14 @@ using std::endl;
 template <typename T>
 void print_sn_list_info(const SinglyLinkedList<T>& list);
 
+void singly_linked_list_test();
+
 int main()
+{
+
+}
+
+void singly_linked_list_test()
 {
 	SinglyLinkedList<int> list;
 
@@ -38,6 +45,21 @@ int main()
 	list.insert(list.size() / 2, 500);
 
 	cout << "\n\nlist after inserting new value 500 in the middle:";
+	print_sn_list_info(list);
+
+	list.remove_at(0);
+
+	cout << "\n\nlist after removing the first value:";
+	print_sn_list_info(list);
+
+	list.remove_at(2);
+
+	cout << "\n\nlist after removing value at position 2:";
+	print_sn_list_info(list);
+
+	list.remove_at(list.size() - 1);
+
+	cout << "\n\nlist after removing the last value:";
 	print_sn_list_info(list);
 }
 
