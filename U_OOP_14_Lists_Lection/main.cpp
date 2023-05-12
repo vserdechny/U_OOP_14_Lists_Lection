@@ -22,8 +22,13 @@ int main()
 	cout << "\n\nAfter pushing back 5 values [10-50]:";
 	print_sn_list_info(list);
 
-	cout << "\n\nAfter popping back 1 value:";
 	list.pop_back();
+	cout << "\n\nAfter popping back 1 value:";
+	print_sn_list_info(list);
+
+	list.set_value(1, 100);
+	cout << "\n\n:";
+	print_sn_list_info(list);
 }
 
 template <typename T>

@@ -64,6 +64,7 @@ namespace singly_linked_list
 		//Access methods
 		//**************************************
 
+		//Returns the value from the node at the specified position
 		const Type& value_at(size_t index)const
 		{
 			if (_head == nullptr)
@@ -77,6 +78,21 @@ namespace singly_linked_list
 					throw std::out_of_range("Index out of range!");
 			}
 			return node->value();
+		}
+		//Assigns a value to the node at the specified position
+		void set_value(size_t index, const Type& value)
+		{
+			if (_head == nullptr)
+				throw std::out_of_range("Index out of range!");
+
+			auto node = _head;
+			for (size_t i = 0; i < index; i++)
+			{
+				node = node->next();
+				if (node == nullptr)
+					throw std::out_of_range("Index out of range!");
+			}
+			node->set_value(value);
 		}
 
 		//**************************************
