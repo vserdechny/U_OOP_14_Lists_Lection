@@ -15,7 +15,7 @@ namespace singly_linked_list
 	{
 	private:
 		SinglyLinkedNode<Type>* _head{ nullptr };		//pointer to the head of the list
-		size_t _size{ 0 };
+		size_t _size{ 0 };								//count of nodes in the list
 
 	public:
 		//Constructors and destructor
@@ -60,7 +60,7 @@ namespace singly_linked_list
 		//**************************************
 		
 		//Returns true if the list is empty
-		bool is_empty()const { return _head == nullptr; }
+		bool is_empty()const { return !_head; }
 		//Returns the number of nodes in the list
 		size_t size()const
 		{

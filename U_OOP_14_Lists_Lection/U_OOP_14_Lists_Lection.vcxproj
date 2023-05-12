@@ -127,7 +127,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="SinglyLinkedListT.h" />
     <ClInclude Include="SinglyLinkedNode.h" />
     <ClInclude Include="SinglyLinkedList.h" />
   </ItemGroup>
