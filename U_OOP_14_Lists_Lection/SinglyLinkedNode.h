@@ -1,6 +1,6 @@
 #pragma once
 
-namespace singly_linked_list
+namespace data_structures
 {
 	/*
 	Singly Linked List Node Implementation

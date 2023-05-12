@@ -1,7 +1,7 @@
 #include "SinglyLinkedList.h"
 #include <iostream>
 
-using singly_linked_list::SinglyLinkedList;
+using data_structures::SinglyLinkedList;
 using std::cout;
 using std::cin;
 using std::endl;
