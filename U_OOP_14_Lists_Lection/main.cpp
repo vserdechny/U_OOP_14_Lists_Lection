@@ -27,7 +27,17 @@ int main()
 	print_sn_list_info(list);
 
 	list.set_value(1, 100);
-	cout << "\n\n:";
+	cout << "\n\nList after second value changes to 100:";
+	print_sn_list_info(list);
+
+	list.insert(0, -100);
+
+	cout << "\n\nlist after inserting new value -100 at the beginning:";
+	print_sn_list_info(list);
+
+	list.insert(list.size() / 2, 500);
+
+	cout << "\n\nlist after inserting new value 500 in the middle:";
 	print_sn_list_info(list);
 }
 

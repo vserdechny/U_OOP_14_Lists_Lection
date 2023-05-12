@@ -134,5 +134,26 @@ namespace singly_linked_list
 			delete node->next();
 			node->set_next(nullptr);
 		}
+		//Inserts a new node with the corresponding value at the specified position
+		void insert(size_t index, const Type& value)
+		{
+			if (index == 0)
+			{
+				auto node = new SinglyLinkedNode<Type>(value, _head);
+				_head = node;
+				return;
+			}
+
+			auto node = _head;
+			for (size_t i = 0; i < index-1; i++)
+			{
+				node = node->next();
+				if (node == nullptr)
+					throw std::out_of_range("Index out of range!");
+			}
+
+			auto new_node = new SinglyLinkedNode<Type>(value, node->next());
+			node->set_next(new_node);
+		}
 	};
 }
