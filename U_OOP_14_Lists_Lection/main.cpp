@@ -13,15 +13,17 @@ void singly_linked_list_test();
 
 int main()
 {
-
+	singly_linked_list_test();
 }
 
 void singly_linked_list_test()
 {
-	SinglyLinkedList<int> list;
+	SinglyLinkedList<int> list, list2(10);
 
-	cout << "Initial state:";
+	cout << "Initial state of list #1:";
 	print_sn_list_info(list);
+	cout << "\n\nInitial state of list #2:";
+	print_sn_list_info(list2);
 
 	for (size_t i = 1; i <= 5; i++)
 		list.push_back(static_cast<int>(i * 10));
@@ -61,6 +63,8 @@ void singly_linked_list_test()
 
 	cout << "\n\nlist after removing the last value:";
 	print_sn_list_info(list);
+
+	
 }
 
 template <typename T>

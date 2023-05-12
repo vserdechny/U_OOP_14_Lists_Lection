@@ -20,6 +20,20 @@ namespace singly_linked_list
 		//Constructors and destructor
 		//**************************************
 		
+		//Default constructor
+		SinglyLinkedList() {}
+		//Constructor that takes as an argument the number of nodes and reserves space for them
+		SinglyLinkedList(size_t count)
+		{
+			_head = new SinglyLinkedNode<Type>();
+
+			auto node = _head;
+			for (size_t i = 1; i < count; i++)
+			{
+				node->set_next(new SinglyLinkedNode<Type>());
+				node = node->next();
+			}
+		}
 		//Destructor that removes all nodes
 		~SinglyLinkedList()
 		{
@@ -189,6 +203,5 @@ namespace singly_linked_list
 				delete node_to_del;
 			}
 		}
-
 	};
 }
