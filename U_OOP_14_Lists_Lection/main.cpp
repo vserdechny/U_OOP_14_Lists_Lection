@@ -64,7 +64,10 @@ void singly_linked_list_test()
 	cout << "\n\nlist after removing the last value:";
 	print_sn_list_info(list);
 
-	
+	list.clear();
+
+	cout << "\n\nlist after clearing:";
+	print_sn_list_info(list);
 }
 
 template <typename T>

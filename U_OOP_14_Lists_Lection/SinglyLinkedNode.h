@@ -11,7 +11,7 @@ namespace singly_linked_list
 	class SinglyLinkedNode
 	{
 	private:
-		Type _value;			//node value
+		Type _value{ Type() };			//node value
 		SinglyLinkedNode<Type>* _next;		//pointer to next node
 
 	public:

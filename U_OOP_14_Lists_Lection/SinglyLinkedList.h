@@ -15,6 +15,7 @@ namespace singly_linked_list
 	{
 	private:
 		SinglyLinkedNode<Type>* _head{ nullptr };		//pointer to the head of the list
+		size_t _size{ 0 };
 
 	public:
 		//Constructors and destructor
@@ -24,6 +25,7 @@ namespace singly_linked_list
 		SinglyLinkedList() {}
 		//Constructor that takes as an argument the number of nodes and reserves space for them
 		SinglyLinkedList(size_t count)
+			:_size(count)
 		{
 			_head = new SinglyLinkedNode<Type>();
 
@@ -48,6 +50,9 @@ namespace singly_linked_list
 				delete node;
 				node = next;
 			}
+
+			_head = nullptr;
+			_size = 0;
 		}
 
 		//**************************************
@@ -59,19 +64,7 @@ namespace singly_linked_list
 		//Returns the number of nodes in the list
 		size_t size()const
 		{
-			if (_head == nullptr)
-				return 0;
-
-			size_t count = 1;
-
-			auto node = _head;
-			while (node->next() != nullptr)
-			{
-				node = node->next();
-				count++;
-			}
-
-			return count;
+			return _size;
 		}
 
 		//**************************************
@@ -81,31 +74,25 @@ namespace singly_linked_list
 		//Returns the value from the node at the specified position
 		const Type& value_at(size_t index)const
 		{
-			if (_head == nullptr)
+			if (_head == nullptr || index >= _size)
 				throw std::out_of_range("Index out of range!");
 
 			auto node = _head;
 			for (size_t i = 0; i < index; i++)
-			{
 				node = node->next();
-				if (node == nullptr)
-					throw std::out_of_range("Index out of range!");
-			}
+
 			return node->value();
 		}
 		//Assigns a value to the node at the specified position
 		void set_value(size_t index, const Type& value)
 		{
-			if (_head == nullptr)
+			if (_head == nullptr || index >= _size)
 				throw std::out_of_range("Index out of range!");
 
 			auto node = _head;
 			for (size_t i = 0; i < index; i++)
-			{
 				node = node->next();
-				if (node == nullptr)
-					throw std::out_of_range("Index out of range!");
-			}
+
 			node->set_value(value);
 		}
 
@@ -116,6 +103,8 @@ namespace singly_linked_list
 		//Adds a new node to the end of the list
 		void push_back(const Type& value)
 		{
+			_size++;
+
 			if (_head == nullptr)
 			{
 				_head = new SinglyLinkedNode<Type>(value);
@@ -134,6 +123,8 @@ namespace singly_linked_list
 			if (_head == nullptr)
 				return;
 
+			_size--;
+
 			if (_head->next() == nullptr)
 			{
 				delete _head;
@@ -151,6 +142,11 @@ namespace singly_linked_list
 		//Inserts a new node with the corresponding value at the specified position
 		void insert(size_t index, const Type& value)
 		{
+			if (index >= _size)
+				throw std::out_of_range("Index out of range!");
+
+			_size++;
+
 			if (index == 0)
 			{
 				auto node = new SinglyLinkedNode<Type>(value, _head);
@@ -160,11 +156,7 @@ namespace singly_linked_list
 
 			auto node = _head;
 			for (size_t i = 0; i < index-1; i++)
-			{
 				node = node->next();
-				if (node == nullptr)
-					throw std::out_of_range("Index out of range!");
-			}
 
 			auto new_node = new SinglyLinkedNode<Type>(value, node->next());
 			node->set_next(new_node);
@@ -172,8 +164,10 @@ namespace singly_linked_list
 		//Removes the node at the specified position
 		void remove_at(size_t index)
 		{
-			if (_head == nullptr)
+			if (_head == nullptr || index >= _size)
 				throw std::out_of_range("Index out of range!");
+
+			_size--;
 
 			if (index == 0)
 			{
@@ -185,11 +179,7 @@ namespace singly_linked_list
 
 			auto node = _head;
 			for (size_t i = 0; i < index - 1; i++)
-			{
 				node = node->next();
-				if (node == nullptr)
-					throw std::out_of_range("Index out of range!");
-			}
 
 			if (node->next()->next() == nullptr)
 			{
@@ -202,6 +192,11 @@ namespace singly_linked_list
 				node->set_next(node->next()->next());
 				delete node_to_del;
 			}
+		}
+		//Clears the list
+		void clear()
+		{
+			this->~SinglyLinkedList();
 		}
 	};
 }
