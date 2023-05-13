@@ -1,0 +1,69 @@
+Initial state of list:
+List size: 0
+Empty? yes
+Values:
+
+After pushing back 5 values [10-50]:
+List size: 5
+Empty? no
+Values:
+10 20 30 40 50 
+
+After pushing front value 1000:
+List size: 6
+Empty? no
+Values:
+1000 10 20 30 40 50 
+
+After popping back 1 value:
+List size: 5
+Empty? no
+Values:
+1000 10 20 30 40 
+
+After popping front 1 value:
+List size: 4
+Empty? no
+Values:
+10 20 30 40 
+
+List after second value changes to 100:
+List size: 4
+Empty? no
+Values:
+10 100 30 40 
+
+list after inserting new value -100 at the beginning:
+List size: 5
+Empty? no
+Values:
+-100 10 100 30 40 
+
+list after inserting new value 500 in the middle:
+List size: 6
+Empty? no
+Values:
+-100 10 500 100 30 40 
+
+list after removing the first value:
+List size: 5
+Empty? no
+Values:
+10 500 100 30 40 
+
+list after removing value at position 2:
+List size: 4
+Empty? no
+Values:
+10 500 30 40 
+
+list after removing the last value:
+List size: 3
+Empty? no
+Values:
+10 500 30 
+
+list after clearing:
+List size: 0
+Empty? yes
+Values:

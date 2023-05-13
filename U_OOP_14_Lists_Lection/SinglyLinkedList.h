@@ -145,6 +145,9 @@ namespace data_structures
 		//Removes the first node of the list
 		void pop_front() override
 		{
+			if (!_head)
+				return;
+
 			auto node_to_del = _head;
 			_head = _head->next();
 			delete node_to_del;
