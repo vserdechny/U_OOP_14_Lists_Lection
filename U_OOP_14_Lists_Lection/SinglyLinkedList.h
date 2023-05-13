@@ -1,5 +1,6 @@
 #pragma once
 #include <stdexcept>
+#include "List.h"
 #include "SinglyLinkedNode.h"
 
 namespace data_structures
@@ -11,12 +12,11 @@ namespace data_structures
 	*/
 
 	template <typename Type>
-	class SinglyLinkedList
+	class SinglyLinkedList : public List<Type>
 	{
 	private:
 		SinglyLinkedNode<Type>* _head{ nullptr };		//pointer to the head of the list
 		SinglyLinkedNode<Type>* _tail{ nullptr };		//pointer to the tail of the list
-		size_t _size{ 0 };								//count of nodes in the list
 
 	public:
 		//Constructors and destructor
@@ -26,7 +26,7 @@ namespace data_structures
 		SinglyLinkedList() {}
 		//Constructor that takes as an argument the number of nodes and reserves space for them
 		SinglyLinkedList(size_t count)
-			:_size(count)
+			:List<Type>(count)
 		{
 			_head = new SinglyLinkedNode<Type>();
 
@@ -40,7 +40,7 @@ namespace data_structures
 			_tail = node;
 		}
 		//Destructor that removes all nodes
-		~SinglyLinkedList()
+		~SinglyLinkedList() override
 		{
 			if (!_head)
 				return;
@@ -54,29 +54,20 @@ namespace data_structures
 			}
 
 			_head = _tail = nullptr;
-			_size = 0;
+			List<Type>::_size = 0;
 		}
 
 		//**************************************
-		//Methods that receive information about the size of the list
-		//**************************************
-		
-		//Returns true if the list is empty
-		bool is_empty()const { return !_head; }
-		//Returns the number of nodes in the list
-		size_t size()const { return _size; }
-
-		//**************************************
-		//Access methods
+		//Access methods implementation
 		//**************************************
 
 		//Returns the value from the node at the specified position
-		const Type& value_at(size_t index)const
+		const Type& value_at(size_t index)const override
 		{
-			if (index >= _size)
+			if (index >= List<Type>::_size)
 				throw std::out_of_range("Index out of range!");
 
-			if (index == _size - 1)
+			if (index == List<Type>::_size - 1)
 				return _tail->value();
 
 			auto node = _head;
@@ -86,12 +77,12 @@ namespace data_structures
 			return node->value();
 		}
 		//Assigns a value to the node at the specified position
-		void set_value(size_t index, const Type& value)
+		void set_value(size_t index, const Type& value) override
 		{
-			if (index >= _size)
+			if (index >= List<Type>::_size)
 				throw std::out_of_range("Index out of range!");
 
-			if (index == _size - 1)
+			if (index == List<Type>::_size - 1)
 				_tail->set_value(value);
 
 			auto node = _head;
@@ -106,101 +97,104 @@ namespace data_structures
 		//**************************************
 
 		//Adds a new node to the end of the list
-		void push_back(const Type& value)
+		void push_back(const Type& value) override
 		{
-			_size++;
-
-			if (_head == nullptr)
+			if (!_head)
 			{
 				_head = new SinglyLinkedNode<Type>(value);
 				_tail = _head;
-				return;
 			}
-
-			_tail->set_next(new SinglyLinkedNode<Type>(value));
-			_tail = _tail->next();
+			else
+			{
+				_tail->set_next(new SinglyLinkedNode<Type>(value));
+				_tail = _tail->next();
+			}
+			List<Type>::_size++;
+		}
+		//Adds a new node to the front of the list
+		void push_front(const Type& value) override
+		{
+			auto node = new SinglyLinkedNode<Type>(value, _head);
+			_head = node;
+			List<Type>::_size++;
 		}
 		//Removes the end node of the list
-		void pop_back()
+		void pop_back() override
 		{
-			if (_head == nullptr)
+			if (!_head)
 				return;
 
-			_size--;
-
-			if (_head->next() == nullptr)
+			if (!_head->next())
 			{
 				delete _head;
-				_head = nullptr;
-				return;
+				_head = _tail = nullptr;
 			}
-
-			auto node = _head;
-			while (node->next()->next() != nullptr)
-				node = node->next();
-
-			delete node->next();
-			node->set_next(nullptr);
-
-			_tail = node;
-		}
-		//Inserts a new node with the corresponding value at the specified position
-		void insert(size_t index, const Type& value)
-		{
-			if (index >= _size)
-				throw std::out_of_range("Index out of range!");
-
-			_size++;
-
-			if (index == 0)
+			else
 			{
-				auto node = new SinglyLinkedNode<Type>(value, _head);
-				_head = node;
-				return;
-			}
+				auto node = _head;
+				while (node->next() != _tail)
+					node = node->next();
 
-			auto node = _head;
-			for (size_t i = 0; i < index-1; i++)
-				node = node->next();
-
-			auto new_node = new SinglyLinkedNode<Type>(value, node->next());
-			node->set_next(new_node);
-		}
-		//Removes the node at the specified position
-		void remove_at(size_t index)
-		{
-			if (index >= _size)
-				throw std::out_of_range("Index out of range!");
-
-			_size--;
-
-			if (index == 0)
-			{
-				auto node_to_del = _head;
-				_head = _head->next();
-				delete node_to_del;
-				return;
-			}
-
-			auto node = _head;
-			for (size_t i = 0; i < index - 1; i++)
-				node = node->next();
-
-			if (node->next()->next() == nullptr)
-			{
 				delete node->next();
 				node->set_next(nullptr);
 				_tail = node;
 			}
+
+			List<Type>::_size--;
+		}
+		//Removes the first node of the list
+		void pop_front() override
+		{
+			auto node_to_del = _head;
+			_head = _head->next();
+			delete node_to_del;
+			List<Type>::_size--;
+		}
+		//Inserts a new node with the corresponding value at the specified position
+		void insert(size_t index, const Type& value) override
+		{
+			if (index >= List<Type>::_size)
+				throw std::out_of_range("Index out of range!");
+
+			if (index == 0)
+				push_front(value);
 			else
 			{
+				auto node = _head;
+				for (size_t i = 0; i < index - 1; i++)
+					node = node->next();
+
+				auto new_node = new SinglyLinkedNode<Type>(value, node->next());
+				node->set_next(new_node);
+
+				List<Type>::_size++;
+			}
+		}
+		//Removes the node at the specified position
+		void remove_at(size_t index) override
+		{
+			if (index >= List<Type>::_size)
+				throw std::out_of_range("Index out of range!");
+
+			if (index == 0)
+				pop_front();
+			else if (index == List<Type>::_size - 1)
+				pop_back();
+			else
+			{
+				auto node = _head;
+				for (size_t i = 0; i < index - 1; i++)
+					node = node->next();
+
 				auto node_to_del = node->next();
 				node->set_next(node->next()->next());
 				delete node_to_del;
+
+				List<Type>::_size--;
 			}
 		}
 		//Clears the list
-		void clear()
+		void clear() override
 		{
 			this->~SinglyLinkedList();
 		}

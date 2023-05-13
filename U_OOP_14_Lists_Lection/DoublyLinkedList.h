@@ -1,5 +1,4 @@
 #pragma once
-
 #include <stdexcept>
 #include "DoublyLinkedNode.h"
 
@@ -166,6 +165,107 @@ namespace data_structures
 			_tail = _tail->prev();
 			_tail->set_next(nullptr);
 			delete cur_tail;
+		}
+		//Inserts a new node with the corresponding value at the specified position
+		void insert(size_t index, const Type& value)
+		{
+			if (index >= _size)
+				throw std::out_of_range("Index out of range!");
+
+			_size++;
+
+			if (index == 0)
+			{
+				auto node = new DoublyLinkedNode<Type>(value);
+				node->set_next(_head);
+				_head->set_prev(node);
+				_head = node;
+				return;
+			}
+
+			DoublyLinkedNode<Type>* node = nullptr;
+
+			if (index > _size / 2)
+			{
+				node = _tail;
+				for (size_t i = _size - 1; i > index; i--)
+					node = node->prev();
+			}
+			else
+			{			
+				node = _head;
+				for (size_t i = 0; i < index - 1; i++)
+					node = node->next();
+			}
+
+			auto new_node = new DoublyLinkedNode<Type>(value);
+			new_node->set_next(node->next());
+			node->next()->set_prev(new_node);
+			node->set_next(new_node);
+			new_node->set_prev(node);
+		}
+		//Removes the node at the specified position
+		void remove_at(size_t index)
+		{
+			if (index >= _size)
+				throw std::out_of_range("Index out of range!");
+
+			_size--;
+
+			if (index == 0)
+			{
+				auto node_to_del = _head;
+				_head = _head->next();
+				_head->set_prev(nullptr);
+				delete node_to_del;
+				return;
+			}
+
+			DoublyLinkedNode<Type>* node = nullptr;
+
+			if (index > _size / 2)
+			{
+				node = _tail;
+				for (size_t i = _size - 1; i > index; i--)
+					node = node->prev();
+
+				if (node == _tail)
+				{
+					pop_back();
+					_size++;
+				}
+				else
+				{
+					node->prev()->set_next(node->next());
+					node->next()->set_prev(node->prev());
+					delete node;
+				}
+			}
+			else
+			{
+				node = _head;
+				for (size_t i = 0; i < index - 1; i++)
+					node = node->next();
+
+				if (node->next()->next() == nullptr)
+				{
+					delete node->next();
+					node->set_next(nullptr);
+					_tail = node;
+				}
+				else
+				{
+					auto node_to_del = node->next();
+					node->set_next(node->next()->next());
+					node->next()->set_prev(node);
+					delete node_to_del;
+				}
+			}
+		}
+		//Clears the list
+		void clear()
+		{
+			this->~DoublyLinkedList();
 		}
 	};
 }
